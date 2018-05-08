@@ -1,20 +1,38 @@
-version: "3"
-
-services:
 
 version: '3.1'
+
+networks:
+  internal:
+    driver: bridge
 
 services:
 
   elasticsearch:
+    networks:
+      - internal
     image: elasticsearch
+    hostname: "elasticsearch"
     ports:
       - 9200:9200
 
   kibana:
+    networks:
+      - internal
     image: kibana
+    hostname: "kibana"
     ports:
       - 5601:5601
   
   filebeat:
+    networks:
+      - internal
+    hostname: "filebeat"
     build: ./filebeat
+
+  logstash:
+    networks:
+      - internal
+    build: ./logstash
+    hostname: "logstash"
+    ports:
+      - 5044:5044
